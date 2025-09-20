@@ -91,6 +91,10 @@ export const AppointmentForm = ({
           );
         }
       } else {
+        // 🔑 add the user’s local timezone
+        const timeZone =
+          Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+
         const appointmentToUpdate = {
           userId,
           appointmentId: appointment?.$id!,
@@ -101,6 +105,7 @@ export const AppointmentForm = ({
             cancellationReason: values.cancellationReason,
           },
           type,
+          timeZone, // ✅ required by UpdateAppointmentParams
         };
 
         const updatedAppointment = await updateAppointment(appointmentToUpdate);
